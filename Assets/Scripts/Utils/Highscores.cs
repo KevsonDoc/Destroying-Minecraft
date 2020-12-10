@@ -74,20 +74,25 @@ namespace Minecraft
 			for (var i = 0; i < entries.Length; i++)
 			{
 				var entryInfo = entries[i].Split(new char[] { '|' });
-				var userName = entryInfo[0].Replace('+', ' ');
-				var score = entryInfo[1];
-				int finalScore = -1;
-				try
+
+				if (entryInfo.Length >= 2)
 				{
-					finalScore = int.Parse(score);
-				}catch(OverflowException e1) {
-					finalScore = int.MaxValue;
+					var userName = entryInfo[0].Replace('+', ' ');
+					var score = entryInfo[1];
+					int finalScore = -1;
+					try
+					{
+						finalScore = int.Parse(score);
+					}
+					catch (OverflowException e1)
+					{
+						finalScore = int.MaxValue;
+					}
+					finally
+					{
+						highscoresList.Add(new Entry(userName, finalScore));
+					}
 				}
-                finally
-                {
-					highscoresList.Add(new Entry(userName, finalScore));
-					
-                }
 			}
 
 			return highscoresList;
